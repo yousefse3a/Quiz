@@ -55,6 +55,7 @@ const Words = (req, res) => {
     while (words.length < num_of_ques) {
         let r = randomBetween(0, WordListLength);
         if (acceptRandoms.indexOf(r) === -1) {
+            acceptRandoms.push(r)
             words.push(wordList[r])
         }
     }
