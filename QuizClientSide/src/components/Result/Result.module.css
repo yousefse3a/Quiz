@@ -33,6 +33,9 @@
   font-size: 18px;
   font-weight: 500;
 }
+.score_text i{
+  color: #007bff;
+}
 
 .score_text span p {
   padding: 0 4px;

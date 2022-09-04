@@ -187,4 +187,12 @@
     pointer-events: auto;
     transform: scale(1);
   }
-  
+  .loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+  }
+  .loading i{
+    color:#004085;
+  }

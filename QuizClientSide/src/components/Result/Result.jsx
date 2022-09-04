@@ -4,7 +4,7 @@ import style from "./Result.module.css";
 export default function Result({ setActiveComponent, GScore }) {
   const [Rank, setRank] = useState(null);
   async function getRank(GScore) {
-    const { data } = await axios.post(`http://localhost:4000/Rank`, {
+    const { data } = await axios.post(`https://quizpos.herokuapp.com/Rank`, {
       score: GScore,
     });
     setRank(data.Rank);
@@ -19,7 +19,11 @@ export default function Result({ setActiveComponent, GScore }) {
       </div>
       <div className={style.complete_text}>You've completed the Quiz!</div>
       <div className={style.score_text}>
-        {Rank >= 50 ? (
+        {Rank === null ? (
+          <span>
+            <i class="fa-solid fa-spinner fa-2x fa-spin"></i>
+          </span>
+        ) : Rank >= 50 ? (
           <span>and nice 😎, Your Rank is {Rank}</span>
         ) : (
           <span>and sorry 😐, Your Rank is {Rank}</span>

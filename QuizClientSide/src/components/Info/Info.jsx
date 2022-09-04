@@ -8,7 +8,7 @@ export default function Rules({setActiveComponent}) {
       </div>
       <div className={style.info_list}>
         <div className="info">
-          1. You will have only <span>30 seconds</span> per each question.
+          1. You will have only <span>15 seconds</span> per each question.
         </div>
         <div className="info">
           2. Once you select your answer, it can't be undone.

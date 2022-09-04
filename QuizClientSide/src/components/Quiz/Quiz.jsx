@@ -13,7 +13,7 @@ export default function Quiz({ setActiveComponent, setGScore }) {
   const time_line = useRef();
   const timer_box = useRef();
   const time_left_txt = useRef();
-  const time_value = 30;
+  const time_value = 15;
 
   const counterLine = useRef();
   const counter = useRef;
@@ -109,21 +109,24 @@ export default function Quiz({ setActiveComponent, setGScore }) {
   }
 
   useEffect(() => {
-    startTimer(time_value);
-    startTimerLine(0);
-    poinerEvent(
-      "auto"
-    ); /* let uset to choose option for every question change */
-    optionRestart();
+    if (questions) {
+      //to ensure Questions get from api
+      startTimer(time_value);
+      startTimerLine(0);
+      poinerEvent(
+        "auto"
+      ); /* let uset to choose option for every question change */
+      optionRestart();
+    }
     return () => {
       clearInterval(counterLine.current);
       clearInterval(counter.current);
       setShowNextBtn(false);
     };
-  }, [QuesIndex]);
+  }, [QuesIndex, questions]);
 
   async function getQuesions() {
-    const { data } = await axios.get(`http://localhost:4000/Words`);
+    const { data } = await axios.get(`https://quizpos.herokuapp.com/Words`);
     setquestions(data);
   }
   useEffect(() => {
@@ -131,57 +134,71 @@ export default function Quiz({ setActiveComponent, setGScore }) {
   }, []);
 
   return (
-    <div className={style.quiz_box} >
-      <div className={style.head} ref={head}>
-        <div className={style.title}>Part of Speech </div>
-        <div className={style.timer} ref={timer_box}>
-          <div className={style.time_left_txt} ref={time_left_txt}>
-            Time Left
+    <div className={style.quiz_box}>
+      {questions ? (
+        <>
+          <div className={style.head} ref={head}>
+            <div className={style.title}>Part of Speech </div>
+            <div className={style.timer} ref={timer_box}>
+              <div className={style.time_left_txt} ref={time_left_txt}>
+                Time Left
+              </div>
+              <div className={style.timer_sec} ref={timer_sec}>
+                {time_value}
+              </div>
+            </div>
+            <div className={style.time_line} ref={time_line}></div>
           </div>
-          <div className={style.timer_sec} ref={timer_sec}>
-            {time_value}
+          <div className={style.question}>
+            <div className={style.que_text}>
+              <span>
+                {QuesIndex + 1}.what is{" "}
+                <span className={style.Word}>
+                  {questions && questions[QuesIndex].word}
+                </span>{" "}
+                ?
+              </span>
+            </div>
+
+            <div
+              className={`${style.option_list} option_list`}
+              ref={option_list}
+            >
+              {category.map((option, index) => {
+                return (
+                  <>
+                    <div
+                      className="option"
+                      key={index}
+                      onClick={(e) => {
+                        optionSelected(e.target);
+                      }}
+                    >
+                      {option}
+                    </div>
+                  </>
+                );
+              })}
+            </div>
           </div>
+          <div className={style.footer}>
+            <div className={style.total_que}>
+              <span>
+                <p>{QuesIndex + 1}</p> / <p>{questions?.length}</p> Questions
+              </span>
+            </div>
+            {ShowNextBtn && (
+              <button className={`${style.next_btn}`} onClick={nextQues}>
+                {QuesIndex < questions?.length - 1 ? " Next Que" : "Result"}
+              </button>
+            )}
+          </div>
+        </>
+      ) : (
+        <div className={style.loading}>
+          <i class="fa-solid fa-spinner fa-5x fa-spin"></i>
         </div>
-        <div className={style.time_line} ref={time_line}></div>
-      </div>
-      <div className={style.question} >
-        <div className={style.que_text}>
-          <span>
-            {QuesIndex + 1}.what is <span className={style.Word}>{questions && questions[QuesIndex].word}</span> ?
-          </span>
-        </div>
-
-        <div className={`${style.option_list} option_list`} ref={option_list}>
-          {category.map((option, index) => {
-            return (
-              <>
-                <div
-                  className="option"
-                  key={index}
-                  onClick={(e) => {
-                    optionSelected(e.target);
-                  }}
-                >
-                  {option}
-                </div>
-              </>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className={style.footer}>
-        <div className={style.total_que}>
-          <span>
-            <p>{QuesIndex + 1}</p> / <p>{questions?.length}</p> Questions
-          </span>
-        </div>
-        {ShowNextBtn && (
-          <button className={`${style.next_btn}`} onClick={nextQues}>
-            {QuesIndex < questions?.length - 1 ? " Next Que" : "Result"}
-          </button>
-        )}
-      </div>
+      )}
     </div>
   );
 }
