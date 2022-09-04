@@ -22,14 +22,14 @@ const Words = (req, res) => {
                     if (num_of_Category1) {
                         words.push(wordList[r]);
                         num_of_Category1--;
-                        acceptRandoms.push[r];
+                        acceptRandoms.push(r);
                     }
                     break;
                 case category[1]:
                     if (num_of_Category2) {
                         words.push(wordList[r]);
                         num_of_Category2--;
-                        acceptRandoms.push[r];
+                        acceptRandoms.push(r);
                     }
 
                     break;
@@ -37,7 +37,7 @@ const Words = (req, res) => {
                     if (num_of_Category3) {
                         words.push(wordList[r]);
                         num_of_Category3--;
-                        acceptRandoms.push[r];
+                        acceptRandoms.push(r);
                     }
 
                     break;
@@ -45,7 +45,7 @@ const Words = (req, res) => {
                     if (num_of_Category4) {
                         words.push(wordList[r]);
                         num_of_Category4--;
-                        acceptRandoms.push[r];
+                        acceptRandoms.push(r);
                     }
                     break;
             };
