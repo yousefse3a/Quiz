@@ -1,7 +1,7 @@
 const { wordList } = require('../assets/TestData')
 
 const Words = (req, res) => {
-    const  num_of_ques =3;
+    const  num_of_ques =10;
     const WordListLength = Object.keys(wordList).length; // get numbers of questions in WordList 
     const category = ['adverb', 'verb', 'noun', 'adjective'];
 
